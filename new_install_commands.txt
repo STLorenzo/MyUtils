@@ -1,0 +1,135 @@
+---------------------------------------Fresh Ubuntu 19.10 Install -----------------------------
+
+### After every new OS linux installation
+	sudo apt update
+	sudo apt upgrade
+
+
+### Change bash to display only current directory path instead of full path
+	sudo gedit ~/.bashrc
+# Change the \w for \W in
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\W\$ '
+fi
+
+
+### Put a desktop walpaper slideshow
+# Using the shotwell default aplication
+
+
+### Install Mendeley using the ubuntu deb package
+
+
+### Install sublime text 3
+# Install the GPG key:
+	wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+# Ensure apt is set up to work with https sources:
+	sudo apt-get install apt-transport-https
+# Select the channel to use:
+# Stable
+	echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+# Update apt sources and install Sublime Text
+	sudo apt-get update
+	sudo apt-get install sublime-text
+
+
+
+### Install Anaconda
+# Download sh installer from web
+# specify install directory /home/<user>/Programs/anaconda3 (this last folder must not exist in first place)
+# run conda init: ( <path_to_conda> = /home/<user>/Programs/anaconda3 ) 
+	source <path_to_conda>/bin/activate
+	conda init
+
+
+
+##################### Install CUDA ENVIRONMENT (nos vamos a reir) #################3
+
+# Check you have a CUDA-capable GPU (if nothing appears then no you haven't)
+	 lspci | grep -i nvidia
+# Check supported version of linux
+	uname -m && cat /etc/*release
+# Check gcc is installed
+	gcc --version
+# Get kernel headers needed
+	sudo apt-get install linux-headers-$(uname -r)
+
+
+# Check nvidia drivers
+	nvidia-smi
+# Update drivers
+	ubuntu-drivers devices
+	sudo ubuntu-drivers autoinstall
+	sudo reboot
+# Install Cuda toolkit (10.1 August 2019 Edition)
+	wget http://developer.download.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.243_418.87.00_linux.run
+	sudo sh cuda_10.1.243_418.87.00_linux.run
+# Install dependencies if installation gived problems and run the installer again.
+	sudo apt install libcupti-dev
+	sudo sh cuda_10.1.243_418.87.00_linux.run
+#(Optional) if it says gcc version not suported use --override
+	sudo sh cuda_10.1.243_418.87.00_linux.run --override
+# append to end of ~/.bashrc file
+	sudo gedit ~/.bashrc
+		export PATH=/usr/local/cuda/bin${PATH:+:${PATH}}
+		export LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+# Create the environment
+	conda create --name cuda_env
+	conda activate cuda_env
+# Install necessary libraries
+	conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
+	conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
+	pip install --upgrade tensorflow-gpu
+	pip install matplotlib face_recognition opencv-python tqdm
+	pip install pandas
+
+# Trying to solve libnvinfer.so.6
+# Add NVIDIA package repositories
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.1.243-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu1804_10.1.243-1_amd64.deb
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+sudo apt-get update
+wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+sudo apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+sudo apt-get update
+# install libraries
+	sudo apt-get install libcudnn7=7.6.4.38-1+cuda10.1 libcudnn7-dev=7.6.4.38-1+cuda10.1
+# Install TensorRT. Requires that libcudnn7 is installed above.
+sudo apt-get install -y --no-install-recommends libnvinfer6=6.0.1-1+cuda10.1 \
+    libnvinfer-dev=6.0.1-1+cuda10.1 \
+    libnvinfer-plugin6=6.0.1-1+cuda10.1
+# Error gone with this commands
+# I got a significant performance improvement but face_recognition library and cv2 still dont use gpu
+
+###############################################################################
+
+### Pycharm installation
+# Download .tar file and extract in Programs folder
+# run /bin/pycharm.sh
+# specify name for symbolink link in /usr/local/bin/ (default) charm
+# In configure -> create desktop entry
+
+### Install gimp
+	sudo apt install gimp
+
+
+### Install vlc
+	sudo apt install vlc
+
+### Change default application in Settings -> Details -> Default Applications
+
+### Install htop 
+	sudo apt install htop
+
+### Install git
+	sudo apt install git
+	
+
+
+
+
+
+

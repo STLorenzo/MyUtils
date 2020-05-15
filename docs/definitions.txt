@@ -1,0 +1,7 @@
+Loss function - The error the model makes. Value that we want to decrease over time
+It represents how confident the model is in its prediction
+
+In the discrete case:
+
+	If the target is an scalar x = 2 use nll_loss as loss function
+	If the target is a One-Hot Vector x = [0, 1, 0, 0] use mean-squared error(mse)

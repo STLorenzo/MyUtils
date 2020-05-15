@@ -1,0 +1,7 @@
+conda create --name main_env
+conda activate main_env
+
+# TFG ENV installs
+conda install -c anaconda pip
+conda install pytorch torchvision cudatoolkit=10.1 -c pytorch
+conda install -c conda-forge matplotlib 
